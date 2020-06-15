@@ -13,6 +13,8 @@
 		04D136F52496EEA90061E624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D136F32496EEA90061E624 /* Main.storyboard */; };
 		04D136F72496EEAC0061E624 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04D136F62496EEAC0061E624 /* Assets.xcassets */; };
 		04D136FA2496EEAC0061E624 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D136F82496EEAC0061E624 /* LaunchScreen.storyboard */; };
+		04E9B54524972A4300935987 /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9B54424972A4300935987 /* PlacesTableViewController.swift */; };
+		04E9B54724972D7200935987 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9B54624972D7200935987 /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		04D136F62496EEAC0061E624 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04D136F92496EEAC0061E624 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04D136FB2496EEAC0061E624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04E9B54424972A4300935987 /* PlacesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewController.swift; sourceTree = "<group>"; };
+		04E9B54624972D7200935987 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				04D136F62496EEAC0061E624 /* Assets.xcassets */,
 				04D136F82496EEAC0061E624 /* LaunchScreen.storyboard */,
 				04D136FB2496EEAC0061E624 /* Info.plist */,
+				04E9B54424972A4300935987 /* PlacesTableViewController.swift */,
+				04E9B54624972D7200935987 /* Utilities.swift */,
 			);
 			path = "To Visit Places_Gagandeep kaur_C0770112";
 			sourceTree = "<group>";
@@ -139,7 +145,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				04D136F22496EEA90061E624 /* ViewController.swift in Sources */,
+				04E9B54524972A4300935987 /* PlacesTableViewController.swift in Sources */,
 				04D136EE2496EEA90061E624 /* AppDelegate.swift in Sources */,
+				04E9B54724972D7200935987 /* Utilities.swift in Sources */,
 				04D136F02496EEA90061E624 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
