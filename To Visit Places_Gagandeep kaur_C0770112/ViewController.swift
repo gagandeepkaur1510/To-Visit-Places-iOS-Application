@@ -16,6 +16,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mSegmentControl: UISegmentedControl!
     var mTransportType: MKDirectionsTransportType = .automobile
     var mCoordinates: CLLocationCoordinate2D?
+    var index: Int?
     
     
     override func viewDidLoad()
@@ -23,10 +24,22 @@ class ViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         setupLocationManager()
         addDoubleTapGesture()
-        
+        setupAnnotation()
         
         
         // Do any additional setup after loading the view.
+    }
+    
+    func setupAnnotation()
+    {
+        if index != nil
+        {
+            let (lat, long, _) = Utilities.get(index: index!)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            annotation.title = "My Destination"
+            mkMapView.addAnnotation(annotation)
+        }
     }
     
     func setupLocationManager()
@@ -40,7 +53,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let tap_gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized))
         tap_gesture.numberOfTapsRequired = 2
         mkMapView.addGestureRecognizer(tap_gesture)
-        
     }
     
     @objc func tapGestureRecognized(gesture: UITapGestureRecognizer)
@@ -157,7 +169,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let pinAnnotation = mkMapView.dequeueReusableAnnotationView(withIdentifier: "droppablePin") ?? MKPinAnnotationView()
         pinAnnotation.image = UIImage(named: "ic_place")
         pinAnnotation.canShowCallout = true
-//        pinAnnotation.isDraggable = true
         let btn = UIButton(type: .detailDisclosure)
         btn.setImage(UIImage(systemName: "star"), for: .normal)
         pinAnnotation.rightCalloutAccessoryView = btn
@@ -165,9 +176,18 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let alertController = UIAlertController(title: "Destination Added", message: "This destination has been added to the favourites", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true, completion: nil)
+        let destination = CLLocation(latitude: view.annotation!.coordinate.latitude, longitude: view.annotation!.coordinate.longitude)
+        CLGeocoder().reverseGeocodeLocation(destination, completionHandler: {(placemarks, error) in
+            if error != nil {
+                print("Reverse geocoder failed with error" + error!.localizedDescription )
+                return
+            }
+            if (placemarks != nil && placemarks?.count ?? 0 > 0)
+            {
+                let name = (placemarks?[0].subThoroughfare ?? " " ) + (placemarks?[0].thoroughfare ?? " ")
+                Utilities.add(latitude: view.annotation!.coordinate.latitude, longitude: view.annotation!.coordinate.longitude, name: name)
+            }
+            
+        })
     }
 }

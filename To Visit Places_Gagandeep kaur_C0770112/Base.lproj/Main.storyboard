@@ -115,10 +115,13 @@
                     <navigationItem key="navigationItem" title="Places" id="MfI-kU-jRW">
                         <barButtonItem key="rightBarButtonItem" title="Add" id="Qyy-sG-2fA">
                             <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" id="JAN-hp-5R2"/>
+                                <segue destination="BYZ-38-t0r" kind="show" identifier="next" id="JAN-hp-5R2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mTableView" destination="4qo-aw-ry5" id="jDO-Ft-bdv"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YQx-1S-V2J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

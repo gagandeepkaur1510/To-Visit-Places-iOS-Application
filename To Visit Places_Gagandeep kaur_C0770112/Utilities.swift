@@ -11,24 +11,34 @@ import MapKit
 
 class Utilities
 {
-    private static var mLongitudes: [CLLocationCoordinate2D] = []
-    private static var mLatitudes: [CLLocationCoordinate2D] = []
+    private static var mLongitudes: [CLLocationDegrees] = []
+    private static var mLatitudes: [CLLocationDegrees] = []
+    private static var mNames: [String] = []
     
-    static func add(latitude: CLLocationCoordinate2D, longitude: CLLocationCoordinate2D)
+    static func add(latitude: CLLocationDegrees, longitude: CLLocationDegrees, name: String)
     {
         mLatitudes.append(latitude)
         mLongitudes.append(longitude)
+        mNames.append(name)
+        print(latitude)
     }
     
-    static func get(index: Int) -> (CLLocationCoordinate2D, CLLocationCoordinate2D)
+    static func get(index: Int) -> (CLLocationDegrees, CLLocationDegrees, String)
     {
-        return (mLatitudes[index],mLongitudes[index])
+        return (mLatitudes[index],mLongitudes[index], mNames[index])
     }
     
-    static func save()
+    
+    
+    static func remove(index: Int)
     {
-        let user_defaults = UserDefaults.standard
-        user_defaults.set(mLongitudes, forKey: "longitudes")
-        user_defaults.set(mLatitudes, forKey: "latitudes")
+        mLatitudes.remove(at: index)
+        mLongitudes.remove(at: index)
+        mNames.remove(at: index)
+    }
+    
+    static func getNumber() -> Int
+    {
+        return mLongitudes.count
     }
 }
