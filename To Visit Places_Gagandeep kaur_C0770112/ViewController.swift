@@ -25,9 +25,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         setupLocationManager()
         addDoubleTapGesture()
         setupAnnotation()
-        
-        
-        // Do any additional setup after loading the view.
     }
     
     func setupAnnotation()
@@ -169,6 +166,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let pinAnnotation = mkMapView.dequeueReusableAnnotationView(withIdentifier: "droppablePin") ?? MKPinAnnotationView()
         pinAnnotation.image = UIImage(named: "ic_place")
         pinAnnotation.canShowCallout = true
+        pinAnnotation.isDraggable = true
         let btn = UIButton(type: .detailDisclosure)
         btn.setImage(UIImage(systemName: "star"), for: .normal)
         pinAnnotation.rightCalloutAccessoryView = btn
@@ -176,7 +174,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        //Shows Annotatin
+        let alertController = UIAlertController(title: "Destination Added", message: "This destination has been added to the favourites", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
         let destination = CLLocation(latitude: view.annotation!.coordinate.latitude, longitude: view.annotation!.coordinate.longitude)
+        
+        //Does Reverse Geocode and saves in Utilities
         CLGeocoder().reverseGeocodeLocation(destination, completionHandler: {(placemarks, error) in
             if error != nil {
                 print("Reverse geocoder failed with error" + error!.localizedDescription )
@@ -189,5 +195,23 @@ class ViewController: UIViewController, MKMapViewDelegate {
             }
             
         })
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+        if newState == .ending && index != nil
+        {
+            let destination = CLLocation(latitude: view.annotation!.coordinate.latitude, longitude: view.annotation!.coordinate.longitude)
+            CLGeocoder().reverseGeocodeLocation(destination, completionHandler: {(placemarks, error) in
+                if error != nil {
+                    print("Reverse geocoder failed with error" + error!.localizedDescription )
+                    return
+                }
+                if (placemarks != nil && placemarks?.count ?? 0 > 0)
+                {
+                    let name = (placemarks?[0].subThoroughfare ?? " " ) + (placemarks?[0].thoroughfare ?? " ")
+                    Utilities.replace(withIndex:self.index! ,latitude: view.annotation!.coordinate.latitude, longitude: view.annotation!.coordinate.longitude, name: name)
+                }
+            })
+        }
     }
 }

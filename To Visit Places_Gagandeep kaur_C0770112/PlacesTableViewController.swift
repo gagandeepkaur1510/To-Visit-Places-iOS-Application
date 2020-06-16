@@ -13,8 +13,17 @@ class PlacesTableViewController: UITableViewController {
     
     @IBOutlet var mTableView: UITableView!
     var index: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        Utilities.load()
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(saveData), name: UIApplication.willResignActiveNotification, object: nil)
+    }
+    
+    @objc func saveData()
+    {
+        Utilities.save()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -40,5 +49,24 @@ class PlacesTableViewController: UITableViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        mTableView.reloadData()
+        index = nil
+    }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        index = indexPath.row
+        performSegue(withIdentifier: "next", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "next"
+        {
+            if segue.destination is ViewController
+            {
+                let vc = segue.destination as! ViewController
+                vc.index = self.index
+            }
+        }
+    }
 }
